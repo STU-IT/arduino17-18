@@ -18,7 +18,7 @@ const byte MOTOR_B = 2;  // Motor 1 Interrupt Pin - INT 0 - Left Motor
 const float stepcount = 20.00;  // 20 Slots in disk, change if different
  
 // Constant for wheel diameter
-const float wheeldiameter = 66.10; // Wheel diameter in millimeters, change if different
+const float wheeldiameter = 66.15; // Wheel diameter in millimeters, change if different
  
 // Integers for pulse counters
 volatile int counter_A = 0;
@@ -33,9 +33,9 @@ int in2 = 8;
  
 // Motor B
  
-int enB = 5;
-int in3 = 7;
-int in4 = 6;
+int enB = 11;
+int in3 = 12;
+int in4 = 13;
  
 // Interrupt Service Routines
  
