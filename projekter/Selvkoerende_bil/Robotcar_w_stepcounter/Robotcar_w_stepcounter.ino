@@ -219,6 +219,15 @@ void setup()
   attachInterrupt(digitalPinToInterrupt (MOTOR_A), ISR_countA, RISING);  // Increase counter A when speed sensor pin goes High
   attachInterrupt(digitalPinToInterrupt (MOTOR_B), ISR_countB, RISING);  // Increase counter B when speed sensor pin goes High
   
+  
+  
+  
+} 
+ 
+ 
+void loop()
+{
+
   // Test Motor Movement  - Experiment with your own sequences here  
   
   MoveForward(CMtoSteps(50), 255);  // Forward half a metre at 255 speed
@@ -235,12 +244,6 @@ void setup()
   delay(1000);  // Wait one second
   MoveForward(1, 255);  // Forward 1 step at 255 speed
   
-  
-} 
- 
- 
-void loop()
-{
   // Put whatever you want here!
  
   
