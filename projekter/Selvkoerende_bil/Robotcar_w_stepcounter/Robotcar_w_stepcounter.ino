@@ -234,15 +234,16 @@ void loop()
   delay(1000);  // Wait one second
   MoveReverse(10, 255);  // Reverse 10 steps at 255 speed
   delay(1000);  // Wait one second
-  MoveForward(10, 150);  // Forward 10 steps at 150 speed
+  MoveForward(10, 255);  // Forward 10 steps at 150 speed
   delay(1000);  // Wait one second
   MoveReverse(CMtoSteps(25.4), 200);  // Reverse 25.4 cm at 200 speed
   delay(1000);  // Wait one second
   SpinRight(20, 255);  // Spin right 20 steps at 255 speed
   delay(1000);  // Wait one second
-  SpinLeft(60, 175);  // Spin left 60 steps at 175 speed
+  SpinLeft(60, 255);  // Spin left 60 steps at 175 speed
   delay(1000);  // Wait one second
   MoveForward(1, 255);  // Forward 1 step at 255 speed
+  delay(1000);
   
   // Put whatever you want here!
  
