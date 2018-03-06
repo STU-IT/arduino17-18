@@ -55,11 +55,19 @@ void ISR_countB()
 int CMtoSteps(float cm) {
  
   int result;  // Final calculation result
-  float circumference = (wheeldiameter * 3.14) / 10; // Calculate wheel circumference in cm
+  float circumference = (wheeldiameter * 3.14) / 10.0; // Calculate wheel circumference in cm
   float cm_step = circumference / stepcount;  // CM per Step
   
   float f_result = cm / cm_step;  // Calculate result as a float
   result = (int) f_result; // Convert to an integer (note this is NOT rounded)
+
+  Serial.print("f_result: ");
+  Serial.print(f_result);
+  Serial.println();
+   
+  Serial.print("result: ");
+  Serial.print(result);
+  Serial.println();
   
   return result;  // End and return result
  
@@ -68,32 +76,60 @@ int CMtoSteps(float cm) {
 // Function to Move Forward
 void MoveForward(int steps, int mspeed) 
 {
-   counter_A = 0;  //  reset counter A to zero
-   counter_B = 0;  //  reset counter B to zero
-   
-   // Set Motor A forward
-   digitalWrite(in1, HIGH);
-   digitalWrite(in2, LOW);
- 
-   // Set Motor B forward
-   digitalWrite(in3, HIGH);
-   digitalWrite(in4, LOW);
-   
-   // Go forward until step value is reached
-   while (steps > counter_A && steps > counter_B) {
-   
+  counter_A = 0;  //  reset counter A to zero
+  counter_B = 0;  //  reset counter B to zero
+  
+  // Set Motor A forward
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  
+  // Set Motor B forward
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  
+  // Go forward until step value is reached
+  while (steps > counter_A && steps > counter_B) {
+
     if (steps > counter_A) {
-    analogWrite(enA, mspeed);
+      analogWrite(enA, mspeed);
     } else {
-    analogWrite(enA, 0);
+      analogWrite(enA, 0);
     }
     if (steps > counter_B) {
-    analogWrite(enB, mspeed);
+      analogWrite(enB, mspeed);
     } else {
-    analogWrite(enB, 0);
+      analogWrite(enB, 0);
     }
-   }
+
+///////
+    Serial.print("Counter_A: ");
+    Serial.print(counter_A);
+    Serial.print(",  ");
+
+    Serial.print("Counter_B: ");
+    Serial.print(counter_B);
+    Serial.print(" ");
     
+    Serial.println();
+///////
+  
+}
+
+
+  
+///////
+    Serial.print("Counter_A: ");
+    Serial.print(counter_A);
+    Serial.print(",  ");
+
+    Serial.print("Counter_B: ");
+    Serial.print(counter_B);
+    Serial.print(" ");
+    
+    Serial.println();
+///////
+  
+
   // Stop when done
   analogWrite(enA, 0);
   analogWrite(enB, 0);
@@ -215,12 +251,19 @@ void SpinLeft(int steps, int mspeed)
  
 void setup() 
 {
+
+  Serial.begin(9600); //Set Serial Communication
+  
   // Attach the Interrupts to their ISR's
   attachInterrupt(digitalPinToInterrupt (MOTOR_A), ISR_countA, RISING);  // Increase counter A when speed sensor pin goes High
   attachInterrupt(digitalPinToInterrupt (MOTOR_B), ISR_countB, RISING);  // Increase counter B when speed sensor pin goes High
-  
-  
-  
+
+  Serial.print("intA: ");
+  Serial.print( digitalPinToInterrupt (MOTOR_A));
+  Serial.print("intB: ");
+  Serial.print( digitalPinToInterrupt (MOTOR_B));
+
+  Serial.println();
   
 } 
  
@@ -230,8 +273,13 @@ void loop()
 
   // Test Motor Movement  - Experiment with your own sequences here  
   
-  MoveForward(CMtoSteps(50), 255);  // Forward half a metre at 255 speed
-  delay(1000);  // Wait one second
+  MoveForward(CMtoSteps(30), 120);  // Forward half a metre at 255 speed  // NU 30 cm
+  delay(1500);  // Wait one second
+
+  //MoveReverse(CMtoSteps(30), 120);  // Forward half a metre at 255 speed  // NU 30 cm
+  //delay(1000);  // Wait one second
+
+  /*
   MoveReverse(10, 255);  // Reverse 10 steps at 255 speed
   delay(1000);  // Wait one second
   MoveForward(10, 255);  // Forward 10 steps at 150 speed
@@ -244,7 +292,11 @@ void loop()
   delay(1000);  // Wait one second
   MoveForward(1, 255);  // Forward 1 step at 255 speed
   delay(1000);
-  
+
+  MoveForward(CMtoSteps(10), 200); // 10 cm frem
+
+  delay(10000); // stop i 10 sec
+  */
   // Put whatever you want here!
  
   
