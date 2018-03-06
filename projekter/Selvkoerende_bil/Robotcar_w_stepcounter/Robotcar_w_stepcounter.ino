@@ -87,28 +87,70 @@ void MoveForward(int steps, int mspeed)
   digitalWrite(in3, HIGH);
   digitalWrite(in4, LOW);
   
-  // Go forward until step value is reached
-  while (steps > counter_A && steps > counter_B) {
+  int lastCountA = 0;
+  int lastCountB = 0;
+  int deltaA = 0;
+  int deltaB = 0;
 
+  float ratio = 1;
+
+  float speedA = 0;
+  float speedB = 0;
+
+  
+   // Go until step value is reached
+   while (steps > counter_A && steps > counter_B) {
+
+    deltaA = counter_A - lastCountA;
+    deltaB = counter_B - lastCountB;
+
+    if (deltaB > 0)
+    {
+      ratio = float(deltaA) / float(deltaB);
+    }
+
+    if (ratio > 1)
+    {
+      speedA = mspeed * (1 / ratio);
+      speedB = mspeed;
+    }
+    else
+    {
+      speedA = mspeed;
+      speedB = mspeed * ratio;
+    }
+  
     if (steps > counter_A) {
-      analogWrite(enA, mspeed);
+      analogWrite(enA, speedA);
     } else {
       analogWrite(enA, 0);
     }
     if (steps > counter_B) {
-      analogWrite(enB, mspeed);
+      analogWrite(enB, speedB);
     } else {
       analogWrite(enB, 0);
     }
 
+    lastCountA = counter_A;
+    lastCountB = counter_B;
+    
 ///////
     Serial.print("Counter_A: ");
     Serial.print(counter_A);
     Serial.print(",  ");
 
+    Serial.print("deltaA: ");  Serial.print(deltaA);   Serial.print(",  ");
+    Serial.print("speedA: ");  Serial.print(speedA);   Serial.print(",  ");
+    
+
     Serial.print("Counter_B: ");
     Serial.print(counter_B);
     Serial.print(" ");
+
+    Serial.print("deltaB: ");  Serial.print(deltaB);   Serial.print(",  ");
+    Serial.print("speedB: ");  Serial.print(speedB);   Serial.print(",  ");
+    
+    Serial.print("ratio: ");  Serial.print(ratio);   Serial.print(",  ");
     
     Serial.println();
 ///////
@@ -225,10 +267,10 @@ void SpinLeft(int steps, int mspeed)
   // Set Motor B reverse
   digitalWrite(in3, LOW);
   digitalWrite(in4, HIGH);
-   
+
    // Go until step value is reached
    while (steps > counter_A && steps > counter_B) {
-   
+
     if (steps > counter_A) {
     analogWrite(enA, mspeed);
     } else {
@@ -252,7 +294,7 @@ void SpinLeft(int steps, int mspeed)
 void setup() 
 {
 
-  Serial.begin(9600); //Set Serial Communication
+  Serial.begin(250000); //Set Serial Communication
   
   // Attach the Interrupts to their ISR's
   attachInterrupt(digitalPinToInterrupt (MOTOR_A), ISR_countA, RISING);  // Increase counter A when speed sensor pin goes High
@@ -273,7 +315,7 @@ void loop()
 
   // Test Motor Movement  - Experiment with your own sequences here  
   
-  MoveForward(CMtoSteps(20), 120);  // Forward half a metre at 255 speed  // NU 30 cm
+  MoveForward(CMtoSteps(200), 120);  // Forward half a metre at 255 speed  // NU 30 cm
   delay(1500);  // Wait one second
 
   //MoveReverse(CMtoSteps(30), 120);  // Forward half a metre at 255 speed  // NU 30 cm
