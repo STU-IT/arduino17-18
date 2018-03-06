@@ -273,7 +273,7 @@ void loop()
 
   // Test Motor Movement  - Experiment with your own sequences here  
   
-  MoveForward(CMtoSteps(30), 120);  // Forward half a metre at 255 speed  // NU 30 cm
+  MoveForward(CMtoSteps(20), 120);  // Forward half a metre at 255 speed  // NU 30 cm
   delay(1500);  // Wait one second
 
   //MoveReverse(CMtoSteps(30), 120);  // Forward half a metre at 255 speed  // NU 30 cm
