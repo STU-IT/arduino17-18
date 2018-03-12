@@ -101,8 +101,17 @@ void MoveForward(int steps, int mspeed)
    // Go until step value is reached
    while (steps > counter_A && steps > counter_B) {
 
+    delay(300);
+    
+    int countA = counter_A;
+    int countB = counter_B;
+    /*
     deltaA = counter_A - lastCountA;
     deltaB = counter_B - lastCountB;
+    */
+    deltaA = countA - lastCountA;
+    deltaB = countB - lastCountB;
+    
 
     if (deltaB > 0)
     {
@@ -111,7 +120,8 @@ void MoveForward(int steps, int mspeed)
 
     if (ratio > 1)
     {
-      speedA = mspeed * (1 / ratio);
+      //speedA = mspeed * (1 / ratio);
+      speedA = mspeed / ratio;
       speedB = mspeed;
     }
     else
@@ -131,8 +141,8 @@ void MoveForward(int steps, int mspeed)
       analogWrite(enB, 0);
     }
 
-    lastCountA = counter_A;
-    lastCountB = counter_B;
+    lastCountA = countA;
+    lastCountB = countB;
     
 ///////
     Serial.print("Counter_A: ");
